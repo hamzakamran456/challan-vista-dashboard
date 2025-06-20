@@ -1,26 +1,40 @@
 
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, ChangeEvent, FormEvent } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import '../styles/Auth.css';
 
+interface FormData {
+  fullName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
+interface Errors {
+  fullName?: string;
+  email?: string;
+  password?: string;
+  confirmPassword?: string;
+}
+
 const Signup = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     fullName: '',
     email: '',
     password: '',
     confirmPassword: ''
   });
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<Errors>({});
   const { login } = useContext(AuthContext);
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
     // Clear error when user starts typing
-    if (errors[e.target.name]) {
+    if (errors[e.target.name as keyof Errors]) {
       setErrors({
         ...errors,
         [e.target.name]: ''
@@ -28,9 +42,9 @@ const Signup = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const newErrors = {};
+    const newErrors: Errors = {};
 
     if (!formData.fullName) {
       newErrors.fullName = 'Full name is required';

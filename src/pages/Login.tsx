@@ -1,24 +1,34 @@
 
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, ChangeEvent, FormEvent } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import '../styles/Auth.css';
 
+interface FormData {
+  email: string;
+  password: string;
+}
+
+interface Errors {
+  email?: string;
+  password?: string;
+}
+
 const Login = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     email: '',
     password: ''
   });
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<Errors>({});
   const { login } = useContext(AuthContext);
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
     // Clear error when user starts typing
-    if (errors[e.target.name]) {
+    if (errors[e.target.name as keyof Errors]) {
       setErrors({
         ...errors,
         [e.target.name]: ''
@@ -26,9 +36,9 @@ const Login = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const newErrors = {};
+    const newErrors: Errors = {};
 
     if (!formData.email) {
       newErrors.email = 'Email is required';
