@@ -1,9 +1,9 @@
-
-import React, { useState, useContext } from 'react';
-import { AuthContext } from '../context/AuthContext';
-import SummaryCards from '../components/SummaryCards';
-import ChallanTable from '../components/ChallanTable';
-import '../styles/Dashboard.css';
+import React, { useState, useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+import SummaryCards from "../components/SummaryCards";
+import ChallanTable from "../components/ChallanTable";
+import "../styles/Dashboard.css";
+import Swal from "sweetalert2";
 
 const Dashboard = () => {
   const { logout } = useContext(AuthContext);
@@ -13,8 +13,12 @@ const Dashboard = () => {
   };
 
   const handleDownloadReport = () => {
-    // Simulate Excel download
-    alert('Excel report downloaded successfully!');
+    Swal.fire({
+      icon: "success",
+      title: "Download Complete",
+      text: "Excel report downloaded successfully!",
+      confirmButtonColor: "#3085d6",
+    });
   };
 
   return (
@@ -25,7 +29,7 @@ const Dashboard = () => {
           Logout
         </button>
       </header>
-      
+
       <div className="dashboard-content">
         <SummaryCards onDownloadReport={handleDownloadReport} />
         <ChallanTable />

@@ -1,8 +1,7 @@
-
-import React, { useState, useContext, ChangeEvent, FormEvent } from 'react';
-import { AuthContext } from '../context/AuthContext';
-import { Link } from 'react-router-dom';
-import '../styles/Auth.css';
+import React, { useState, useContext, ChangeEvent, FormEvent } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { Link } from "react-router-dom";
+import "../styles/Auth.css";
 
 interface FormData {
   email: string;
@@ -16,8 +15,8 @@ interface Errors {
 
 const Login = () => {
   const [formData, setFormData] = useState<FormData>({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
   const [errors, setErrors] = useState<Errors>({});
   const { login } = useContext(AuthContext);
@@ -25,13 +24,13 @@ const Login = () => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
     // Clear error when user starts typing
     if (errors[e.target.name as keyof Errors]) {
       setErrors({
         ...errors,
-        [e.target.name]: ''
+        [e.target.name]: "",
       });
     }
   };
@@ -41,13 +40,13 @@ const Login = () => {
     const newErrors: Errors = {};
 
     if (!formData.email) {
-      newErrors.email = 'Email is required';
+      newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Email is invalid';
+      newErrors.email = "Email is invalid";
     }
 
     if (!formData.password) {
-      newErrors.password = 'Password is required';
+      newErrors.password = "Password is required";
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -71,7 +70,7 @@ const Login = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className={errors.email ? 'error' : ''}
+              className={errors.email ? "error" : ""}
               placeholder="Enter your email"
             />
             {errors.email && <span className="error-text">{errors.email}</span>}
@@ -85,13 +84,17 @@ const Login = () => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className={errors.password ? 'error' : ''}
+              className={errors.password ? "error" : ""}
               placeholder="Enter your password"
             />
-            {errors.password && <span className="error-text">{errors.password}</span>}
+            {errors.password && (
+              <span className="error-text">{errors.password}</span>
+            )}
           </div>
 
-          <button type="submit" className="auth-btn">Login</button>
+          <button type="submit" className="auth-btn">
+            Login
+          </button>
         </form>
 
         <p className="auth-link">

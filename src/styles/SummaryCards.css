@@ -1,4 +1,3 @@
-
 .summary-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -43,7 +42,7 @@
 }
 
 .card-icon.failed {
-  background: linear-gradient(135deg, #ef4444, #dc2626);
+  background: linear-gradient(135deg, #fca5a5, #f87171);
 }
 
 .card-content {
@@ -103,11 +102,11 @@
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-  
+
   .summary-card {
     padding: 1.5rem;
   }
-  
+
   .card-number {
     font-size: 1.75rem;
   }

@@ -1,8 +1,7 @@
-
-import React, { useState, useContext, ChangeEvent, FormEvent } from 'react';
-import { AuthContext } from '../context/AuthContext';
-import { Link } from 'react-router-dom';
-import '../styles/Auth.css';
+import React, { useState, useContext, ChangeEvent, FormEvent } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { Link } from "react-router-dom";
+import "../styles/Auth.css";
 
 interface FormData {
   fullName: string;
@@ -20,10 +19,10 @@ interface Errors {
 
 const Signup = () => {
   const [formData, setFormData] = useState<FormData>({
-    fullName: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
+    fullName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
   const [errors, setErrors] = useState<Errors>({});
   const { login } = useContext(AuthContext);
@@ -31,13 +30,13 @@ const Signup = () => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
     // Clear error when user starts typing
     if (errors[e.target.name as keyof Errors]) {
       setErrors({
         ...errors,
-        [e.target.name]: ''
+        [e.target.name]: "",
       });
     }
   };
@@ -47,25 +46,25 @@ const Signup = () => {
     const newErrors: Errors = {};
 
     if (!formData.fullName) {
-      newErrors.fullName = 'Full name is required';
+      newErrors.fullName = "Full name is required";
     }
 
     if (!formData.email) {
-      newErrors.email = 'Email is required';
+      newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Email is invalid';
+      newErrors.email = "Email is invalid";
     }
 
     if (!formData.password) {
-      newErrors.password = 'Password is required';
+      newErrors.password = "Password is required";
     } else if (formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
+      newErrors.password = "Password must be at least 6 characters";
     }
 
     if (!formData.confirmPassword) {
-      newErrors.confirmPassword = 'Please confirm your password';
+      newErrors.confirmPassword = "Please confirm your password";
     } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
+      newErrors.confirmPassword = "Passwords do not match";
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -90,10 +89,12 @@ const Signup = () => {
               name="fullName"
               value={formData.fullName}
               onChange={handleChange}
-              className={errors.fullName ? 'error' : ''}
+              className={errors.fullName ? "error" : ""}
               placeholder="Enter your full name"
             />
-            {errors.fullName && <span className="error-text">{errors.fullName}</span>}
+            {errors.fullName && (
+              <span className="error-text">{errors.fullName}</span>
+            )}
           </div>
 
           <div className="form-group">
@@ -104,7 +105,7 @@ const Signup = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className={errors.email ? 'error' : ''}
+              className={errors.email ? "error" : ""}
               placeholder="Enter your email"
             />
             {errors.email && <span className="error-text">{errors.email}</span>}
@@ -118,10 +119,12 @@ const Signup = () => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className={errors.password ? 'error' : ''}
+              className={errors.password ? "error" : ""}
               placeholder="Enter your password"
             />
-            {errors.password && <span className="error-text">{errors.password}</span>}
+            {errors.password && (
+              <span className="error-text">{errors.password}</span>
+            )}
           </div>
 
           <div className="form-group">
@@ -132,13 +135,17 @@ const Signup = () => {
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
-              className={errors.confirmPassword ? 'error' : ''}
+              className={errors.confirmPassword ? "error" : ""}
               placeholder="Confirm your password"
             />
-            {errors.confirmPassword && <span className="error-text">{errors.confirmPassword}</span>}
+            {errors.confirmPassword && (
+              <span className="error-text">{errors.confirmPassword}</span>
+            )}
           </div>
 
-          <button type="submit" className="auth-btn">Sign Up</button>
+          <button type="submit" className="auth-btn">
+            Sign Up
+          </button>
         </form>
 
         <p className="auth-link">
