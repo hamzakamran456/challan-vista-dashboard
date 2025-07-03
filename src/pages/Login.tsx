@@ -1,6 +1,12 @@
-import React, { useState, useContext, ChangeEvent, FormEvent } from "react";
+import React, {
+  useState,
+  useContext,
+  useEffect,
+  ChangeEvent,
+  FormEvent,
+} from "react";
 import { AuthContext } from "../context/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/Auth.css";
 
 interface FormData {
@@ -19,14 +25,19 @@ const Login = () => {
     password: "",
   });
   const [errors, setErrors] = useState<Errors>({});
-  const { login } = useContext(AuthContext);
+  const { login, isAuthenticated } = useContext(AuthContext);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/dashboard");
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
-    // Clear error when user starts typing
     if (errors[e.target.name as keyof Errors]) {
       setErrors({
         ...errors,
