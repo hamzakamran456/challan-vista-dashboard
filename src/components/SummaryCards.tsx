@@ -14,15 +14,10 @@ type SummaryData = {
   failedCount: number;
 };
 
-interface SummaryCardsProps {
-  onDownloadReport: () => void;
-}
-
-const SummaryCards: React.FC<SummaryCardsProps> = ({ onDownloadReport }) => {
+const SummaryCards: React.FC = () => {
   const [summaryData, setSummaryData] = useState<SummaryData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  // const [selectedDate, setSelectedDate] = useState<string>("2025-07-01");
 
   const [selectedDate, setSelectedDate] = useState<string>(() => {
     const today = new Date();
@@ -36,9 +31,10 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({ onDownloadReport }) => {
         const response = await axios.get(
           "http://192.168.100.191:8999/api/v1/dashboard/summary",
           {
-            params: selectedDate ? { date: selectedDate } : {},
+            params: { date: selectedDate },
           }
         );
+
         const { total_policies, successful_challans, failed_challans } =
           response.data;
 
@@ -61,6 +57,28 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({ onDownloadReport }) => {
     fetchSummary();
   }, [selectedDate]);
 
+  const handleDownloadReport = async () => {
+    try {
+      const response = await axios.get(
+        "http://192.168.100.191:8999/api/v1/dashboard/download-excel",
+        {
+          params: { date: selectedDate },
+          responseType: "blob",
+        }
+      );
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `challan-report-${selectedDate}.xlsx`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      console.error("Download failed:", error);
+      alert("Failed to download report.");
+    }
+  };
+
   return (
     <>
       {/* Date Picker */}
@@ -73,15 +91,14 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({ onDownloadReport }) => {
           onChange={(e) => setSelectedDate(e.target.value)}
         />
       </div>
+
       <div className="summary-cards">
-        {/* Loading / Error State */}
         {loading ? (
           <div>Loading summary...</div>
         ) : error ? (
           <div className="summary-cards error">{error}</div>
         ) : (
           <>
-            {/* Summary Cards */}
             <div className="summary-card">
               <div className="card-icon total">
                 <FiClipboard size={28} />
@@ -122,8 +139,8 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({ onDownloadReport }) => {
 
         {/* Download Report */}
         <div className="summary-card download-card">
-          <button onClick={onDownloadReport} className="download-btn">
-            📥 Download Report (XLSX)
+          <button onClick={handleDownloadReport} className="download-btn">
+            <FiDownload size={28} /> Download Report (XLSX)
           </button>
         </div>
       </div>
