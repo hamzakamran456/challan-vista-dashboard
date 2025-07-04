@@ -37,12 +37,24 @@
   background: linear-gradient(135deg, #3b82f6, #1d4ed8);
 }
 
+.card-icon.total svg {
+  color: #1f2937;
+}
+
 .card-icon.success {
   background: linear-gradient(135deg, #10b981, #059669);
 }
 
+.card-icon.success svg {
+  color: white;
+}
+
 .card-icon.failed {
   background: linear-gradient(135deg, #fca5a5, #f87171);
+}
+
+.card-icon.failed {
+  color: red;
 }
 
 .card-content {
@@ -100,7 +112,8 @@
 .summary-date-picker {
   margin-bottom: 1.5rem;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  flex-direction: column;
   font-size: 1rem;
   font-weight: 500;
   gap: 0.5rem;
@@ -114,6 +127,7 @@
   outline: none;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   transition: border-color 0.2s, box-shadow 0.2s;
+  width: 40%;
 }
 
 .summary-date-picker input[type="date"]:focus {

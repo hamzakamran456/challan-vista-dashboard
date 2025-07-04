@@ -22,12 +22,12 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({ onDownloadReport }) => {
   const [summaryData, setSummaryData] = useState<SummaryData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedDate, setSelectedDate] = useState<string>("2025-07-01");
+  // const [selectedDate, setSelectedDate] = useState<string>("2025-07-01");
 
-  // const [selectedDate, setSelectedDate] = useState<string>(() => {
-  //   const today = new Date();
-  //   return today.toISOString().split("T")[0];
-  // });
+  const [selectedDate, setSelectedDate] = useState<string>(() => {
+    const today = new Date();
+    return today.toISOString().split("T")[0];
+  });
 
   useEffect(() => {
     const fetchSummary = async () => {
@@ -84,7 +84,7 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({ onDownloadReport }) => {
             {/* Summary Cards */}
             <div className="summary-card">
               <div className="card-icon total">
-                <FiClipboard size={24} />
+                <FiClipboard size={28} />
               </div>
               <div className="card-content">
                 <h3>Total Policies</h3>
@@ -96,7 +96,7 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({ onDownloadReport }) => {
 
             <div className="summary-card">
               <div className="card-icon success">
-                <FiCheckCircle size={24} color="green" />
+                <FiCheckCircle size={28} />
               </div>
               <div className="card-content">
                 <h3>Success Count</h3>
@@ -108,7 +108,7 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({ onDownloadReport }) => {
 
             <div className="summary-card">
               <div className="card-icon failed">
-                <FiXCircle size={24} color="red" />
+                <FiXCircle size={28} />
               </div>
               <div className="card-content">
                 <h3>Failed Count</h3>
@@ -123,8 +123,7 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({ onDownloadReport }) => {
         {/* Download Report */}
         <div className="summary-card download-card">
           <button onClick={onDownloadReport} className="download-btn">
-            <FiDownload size={20} style={{ marginRight: "8px" }} />
-            Download Report (XLSX)
+            📥 Download Report (XLSX)
           </button>
         </div>
       </div>
